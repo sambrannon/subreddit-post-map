@@ -1,0 +1,23 @@
+{
+  "name": "subreddit-post-map",
+  "version": "1.0.0",
+  "description": "show location of reddit posts",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sambrannon/subreddit-post-map.git"
+  },
+  "author": "brannon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sambrannon/subreddit-post-map/issues"
+  },
+  "homepage": "https://github.com/sambrannon/subreddit-post-map#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "express": "^4.16.3"
+  }
+}
