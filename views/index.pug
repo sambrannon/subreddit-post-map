@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', type='text/css', href='css/style.css')
+  body
+    #map
+
+    script(src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js")
+    script(async, defer, src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8v-qAHELgwMzTsxvYRuZ7QchQDqelUtk&callback=initMap")
+    script(src='js/mapEmbed.js')
