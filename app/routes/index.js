@@ -1,10 +1,10 @@
 var express	= require("express"),
 	router 	= express.Router(),
+	reddit	= require("../../helpers/reddit.js"),
+	city	= require("../../helpers/city.js");
 
-	reddit	= require("../../helpers/reddit.js");
 
-
-var redditUrl = "https://www.reddit.com/r/tattoos/new/.json";
+var redditUrl = "https://www.reddit.com/r/tattoos/new/.json?limit=25";
 
 
 
