@@ -1,6 +1,4 @@
-var express = require("express"),
-    router = express.Router(),
-    axios = require("axios");
+var axios = require("axios");
 
 module.exports = {
 
