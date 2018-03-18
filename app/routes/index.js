@@ -14,6 +14,8 @@ router.get("/", function(req, res){
 	.then(reddit.getPostsWithStateInTitle)
 	.then(function(posts){
 		return res.send(posts);
+	}).catch(function(err){
+		console.log(err);
 	})
 });
 

@@ -4,7 +4,7 @@ var express		= require("express"),
 	city		= require("./city.js");
 
 
-var states = 
+
 
 
 module.exports = {
@@ -22,18 +22,27 @@ module.exports = {
 		});
 	},
 
+  findStateInTitle: function(title){
+    return title   
+    .replace(/[.,?!_"';:-]/g, "")
+    .split(" ")
+    .forEach(function(str){
+      if(city.getStates(true).includes(str) || city.getStates().includes(str.toUpperCase())){
+        return str;
+      }
+    });
+  },
+
 	getPostsWithStateInTitle: function(posts){
 		return posts.filter(function(post){
-			return post.data.title		
-			.replace(/[.,?!_"';:-]/g, "")
-			.split(" ")
-			.some(function(str){
-				return city.getStates(true).includes(str) || city.getStates().includes(str.toUpperCase());
-			});
+      console.log(this);
+      return module.exports.findStateInTitle(post.data.title);		
 		});
-	}		
+	}	
 
 }
+
+
 
 
 
