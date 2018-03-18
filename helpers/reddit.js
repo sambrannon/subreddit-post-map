@@ -35,17 +35,11 @@ module.exports = {
 
 	getPostsWithStateInTitle: function(posts){
 		return posts.filter(function(post){
-      console.log(this);
-      return module.exports.findStateInTitle(post.data.title);		
+      return findStateInTitle(post.data.title);		
 		});
 	}	
 
 }
-
-
-
-
-
 
 
 
