@@ -21,11 +21,11 @@ var helpers = {
 	},
 
   findPostsWithCities: function(posts){
-    var statesAbb = city.getStates(true);
-    var states = city.getStates();
+    var statesAbb = city.getStates(true),
+        states = city.getStates();
     return posts.filter(function(post){
-      var title = post.data.title;
-      var titleArr = title.replace(/[.,?!_"';:-]/g, "").split(" ");
+      var title = post.data.title,
+          titleArr = title.replace(/[.,?!_"';:-]/g, "").split(" ");
       return titleArr.some(function(state, i, arr){
         if(statesAbb.includes(state) || states.includes(state.toUpperCase())){
           var foundCities = cities.findByState(state);
