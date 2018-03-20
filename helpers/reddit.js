@@ -1,16 +1,14 @@
-var express		= require("express"),
-	router		= express.Router(),
-	axios		= require("axios"),
-	city		= require("./city.js");
+	var axios		= require("axios"),
+	    city		= require("./city.js"),
+      cities  = require("cities");
 
 
-
-
-
-module.exports = {
+var helpers = {
 
 	getSubPosts: function(subUrl, limit, before, after){
-		return axios.get(subUrl)
+		return axios.get(subUrl, {params: {
+      limit: 100
+    }})
 		.then(function(res){
 			return res.data.data.children;
 		})
@@ -22,24 +20,58 @@ module.exports = {
 		});
 	},
 
-  findStateInTitle: function(title){
-    return title   
-    .replace(/[.,?!_"';:-]/g, "")
-    .split(" ")
-    .forEach(function(str){
-      if(city.getStates(true).includes(str) || city.getStates().includes(str.toUpperCase())){
-        return str;
-      }
+  findPostsWithCities: function(posts){
+    var statesAbb = city.getStates(true);
+    var states = city.getStates();
+    return posts.filter(function(post){
+      var title = post.data.title;
+      var titleArr = title.replace(/[.,?!_"';:-]/g, "").split(" ");
+      return titleArr.some(function(state, i, arr){
+        if(statesAbb.includes(state) || states.includes(state.toUpperCase())){
+          var foundCities = cities.findByState(state);
+          return foundCities.some(function(city){
+            if(helpers.foundCityInTitle(city, arr, i)){ 
+              //database function will most likely go here 
+              post.data.state = city.state;
+              post.data.city = city.city;
+              return true;
+            }
+          })
+        }
+      });
     });
   },
 
-	getPostsWithStateInTitle: function(posts){
-		return posts.filter(function(post){
-      return findStateInTitle(post.data.title);		
-		});
-	}	
+
+  foundCityInTitle: function(city, titleArr, stateIndex){
+    var cityUpper = city.city.toUpperCase();
+    var oneBefore = titleArr[stateIndex - 1].toUpperCase();
+    var twoBefore = titleArr[stateIndex - 2].toUpperCase();
+    var threeBefore = titleArr[stateIndex - 3].toUpperCase();
+
+
+    if(cityUpper === oneBefore){
+      return true;
+    }
+    else if(cityUpper === twoBefore + " " + oneBefore) {
+      return true;
+    }
+    else if(cityUpper === threeBefore + " " + twoBefore + " " + oneBefore) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+
 
 }
+
+
+module.exports = helpers;
+
+
 
 
 

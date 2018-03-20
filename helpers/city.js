@@ -2,7 +2,7 @@ var express			= require("express"),
 	router			= express.Router;
 
 
-module.exports = {
+helpers = {
 
 	states: [
 	    { name: 'ALABAMA', abbreviation: 'AL'},
@@ -68,15 +68,17 @@ module.exports = {
 
 	getStates: function(abbreviate){
 		if(abbreviate){
-			return this.states.map(function(val){
+			return helpers.states.map(function(val){
 				return val.abbreviation;
 			});
 		} else {
-			return this.states.map(function(val){
+			return helpers.states.map(function(val){
 				return val.name;
 			})
 		}
 	}
-
-
 }	
+
+
+
+module.exports = helpers;

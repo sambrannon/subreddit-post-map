@@ -18,6 +18,7 @@
   "homepage": "https://github.com/sambrannon/subreddit-post-map#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "cities": "^1.1.2",
     "express": "^4.16.3",
     "pug": "^2.0.1"
   }
