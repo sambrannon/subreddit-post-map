@@ -44,10 +44,10 @@ var helpers = {
 
 
   foundCityInTitle: function(city, titleArr, stateIndex){
-    var cityUpper = city.city.toUpperCase();
-    var oneBefore = titleArr[stateIndex - 1].toUpperCase();
-    var twoBefore = titleArr[stateIndex - 2].toUpperCase();
-    var threeBefore = titleArr[stateIndex - 3].toUpperCase();
+    var cityUpper = city.city.toUpperCase(),
+        oneBefore = titleArr[stateIndex - 1].toUpperCase(),
+        twoBefore = titleArr[stateIndex - 2].toUpperCase(),
+        threeBefore = titleArr[stateIndex - 3].toUpperCase();
 
 
     if(cityUpper === oneBefore){
