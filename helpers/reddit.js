@@ -1,6 +1,7 @@
-	var axios		= require("axios"),
+	var axios		    = require("axios"),
 	    cityHelp		= require("./city.js"),
-      cities  = require("cities");
+      cities      = require("cities"),
+      dbHelp      = require("./mongoose.js");
 
 
 var help = {
@@ -28,10 +29,7 @@ var help = {
             if(state){
               post.data.city = help.returnCity(title, state);
               if(post.data.city){
-                console.log(post.data.title);
-                console.log(post.data.city);
-                num++
-                console.log(num);
+                dbHelp.addPostToDb(post.data);
               }
             }
           })
@@ -39,18 +37,17 @@ var help = {
   },
 
   returnState: function(title){
-    const statesAbbr = cityHelp.getStates(true),
-          states = cityHelp.getStates();
-    for(let i=0, len=statesAbbr.length;i<len;i++){
-      if(title.includes(statesAbbr[i]) || title.toUpperCase().includes(states[i])){
-        return {nameAbbr: statesAbbr[i], name: states[i]};
+    const states = cityHelp.states;
+    for(let i=0, len=states.length;i<len;i++){
+      if(title.includes(states[i].abbreviation) || title.toUpperCase().includes(states[i].name)){
+        return states[i];
       }
     }      
 
   },
 
   returnCity: function(title, state){
-    stateCities = cities.findByState(state.nameAbbr);
+    stateCities = cities.findByState(state.abbreviation);
     const titleUpper = title.toUpperCase();
     for(let i=0, len=stateCities.length;i<len;i++){
       if(titleUpper.includes(stateCities[i].city.toUpperCase()) && stateCities[i].city !== ""){
