@@ -43,7 +43,7 @@ var help = {
           states = cityHelp.getStates();
     for(let i=0, len=statesAbbr.length;i<len;i++){
       if(title.includes(statesAbbr[i]) || title.toUpperCase().includes(states[i])){
-        return {nameAbbr: statesAbbr[i], name: states[i], index: title.indexOf(statesAbbr[i])};
+        return {nameAbbr: statesAbbr[i], name: states[i]};
       }
     }      
 
