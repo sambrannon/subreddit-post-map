@@ -21,9 +21,10 @@ var help = {
 	},
 
   findPostsWithCities: function(posts){
+    console.log("hello");
       var num = 0;
           posts.forEach(function(post){
-            let title = post.data.title.toUpperCase().replace(/[.,?!_"';:-]/g, "").split(" ");
+            let title = post.data.title.replace(/[.,?!_"';:-]/g, "").split(" ");
             let state;
             state = help.returnState(title);
             if(state && state.index !== -1){
@@ -43,7 +44,7 @@ var help = {
     const statesAbb = cityHelp.getStates(true),
           states = cityHelp.getStates();
     for(let i=0, len=statesAbb.length;i<len;i++){
-      if(title.includes(statesAbb[i]) || title.includes(states[i])){
+      if(title.includes(statesAbb[i]) || title.map(val => val.toUpperCase()).includes(states[i])){
         return {nameAbb: statesAbb[i], name: states[i], index: title.indexOf(statesAbb[i])};
       }
     }      
