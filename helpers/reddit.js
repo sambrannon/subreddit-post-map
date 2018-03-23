@@ -1,9 +1,9 @@
 	var axios		= require("axios"),
-	    city		= require("./city.js"),
+	    cityHelp		= require("./city.js"),
       cities  = require("cities");
 
 
-var helpers = {
+var help = {
 
 	getSubPosts: function(subUrl, limit, before, after){
 		return axios.get(subUrl, {params: {
@@ -21,55 +21,49 @@ var helpers = {
 	},
 
   findPostsWithCities: function(posts){
-    var statesAbb = city.getStates(true),
-        states = city.getStates();
-    return posts.filter(function(post){
-      var title = post.data.title,
-          titleArr = title.replace(/[.,?!_"';:-]/g, "").split(" ");
-      return titleArr.some(function(state, i, arr){
-        if(statesAbb.includes(state) || states.includes(state.toUpperCase())){
-          var foundCities = cities.findByState(state);
-          return foundCities.some(function(city){
-            if(helpers.foundCityInTitle(city, arr, i)){ 
-              //database function will most likely go here 
-              post.data.state = city.state;
-              post.data.city = city.city;
-              return true;
+      var num = 0;
+          posts.forEach(function(post){
+            let title = post.data.title.toUpperCase().replace(/[.,?!_"';:-]/g, "").split(" ");
+            let state;
+            state = help.returnState(title);
+            if(state && state.index !== -1){
+              post.data.city = help.returnCity(title, state);
+              if(post.data.city){
+                console.log(post.data.title);
+                console.log(post.data.city);
+                num++
+                console.log(num);
+              }
             }
           })
-        }
-      });
-    });
+          return null;
   },
 
+  returnState: function(title){
+    const statesAbb = cityHelp.getStates(true),
+          states = cityHelp.getStates();
+    for(let i=0, len=statesAbb.length;i<len;i++){
+      if(title.includes(statesAbb[i]) || title.includes(states[i])){
+        return {nameAbb: statesAbb[i], name: states[i], index: title.indexOf(statesAbb[i])};
+      }
+    }      
 
-  foundCityInTitle: function(city, titleArr, stateIndex){
-    var cityUpper = city.city.toUpperCase(),
-        oneBefore = titleArr[stateIndex - 1].toUpperCase(),
-        twoBefore = titleArr[stateIndex - 2].toUpperCase(),
-        threeBefore = titleArr[stateIndex - 3].toUpperCase();
+  },
 
-
-    if(cityUpper === oneBefore){
-      return true;
-    }
-    else if(cityUpper === twoBefore + " " + oneBefore) {
-      return true;
-    }
-    else if(cityUpper === threeBefore + " " + twoBefore + " " + oneBefore) {
-      return true;
-    }
-    else {
-      return false;
-    }
+  returnCity: function(title, state){
+    stateCities = cities.findByState(state.nameAbb);
+    const titleSearchArea = title.slice(state.index - 4, state.index);
+    for(let i=0, len=stateCities.length;i<len;i++){
+      if(titleSearchArea.includes(stateCities[i].city.toUpperCase())){
+        return stateCities[i];
+      }
+    } 
   }
-
 
 
 }
 
-
-module.exports = helpers;
+module.exports = help;
 
 
 

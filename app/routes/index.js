@@ -4,13 +4,12 @@ var express = require("express"),
     city	= require("../../helpers/city.js");
 
 router.get("/", function(req, res){
-  var redditUrl = "https://www.reddit.com/r/tattoos/.json";
+  var redditUrl = "https://www.reddit.com/r/tattoos/new/.json";
 
 
   reddit.getSubPosts(redditUrl)
   .then(reddit.findPostsWithCities)
-  .then(function(posts){
-  	console.log(posts);
+  .then(function(){
     res.render('index', {title: 'Reddit Map Thinger'});
   })
   .catch(function(err){
