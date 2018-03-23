@@ -21,13 +21,11 @@ var help = {
 	},
 
   findPostsWithCities: function(posts){
-    console.log("hello");
       var num = 0;
           posts.forEach(function(post){
-            let title = post.data.title.replace(/[.,?!_"';:-]/g, "").split(" ");
-            let state;
-            state = help.returnState(title);
-            if(state && state.index !== -1){
+            let title = post.data.title;
+            let state = help.returnState(title);
+            if(state){
               post.data.city = help.returnCity(title, state);
               if(post.data.city){
                 console.log(post.data.title);
@@ -41,25 +39,27 @@ var help = {
   },
 
   returnState: function(title){
-    const statesAbb = cityHelp.getStates(true),
+    const statesAbbr = cityHelp.getStates(true),
           states = cityHelp.getStates();
-    for(let i=0, len=statesAbb.length;i<len;i++){
-      if(title.includes(statesAbb[i]) || title.map(val => val.toUpperCase()).includes(states[i])){
-        return {nameAbb: statesAbb[i], name: states[i], index: title.indexOf(statesAbb[i])};
+    for(let i=0, len=statesAbbr.length;i<len;i++){
+      if(title.includes(statesAbbr[i]) || title.toUpperCase().includes(states[i])){
+        return {nameAbbr: statesAbbr[i], name: states[i], index: title.indexOf(statesAbbr[i])};
       }
     }      
 
   },
 
   returnCity: function(title, state){
-    stateCities = cities.findByState(state.nameAbb);
-    const titleSearchArea = title.slice(state.index - 4, state.index);
+    stateCities = cities.findByState(state.nameAbbr);
+    const titleUpper = title.toUpperCase();
     for(let i=0, len=stateCities.length;i<len;i++){
-      if(titleSearchArea.includes(stateCities[i].city.toUpperCase())){
+      if(titleUpper.includes(stateCities[i].city.toUpperCase()) && stateCities[i].city !== ""){
         return stateCities[i];
       }
     } 
   }
+
+//can currently validate 59/100 posts 
 
 
 }
