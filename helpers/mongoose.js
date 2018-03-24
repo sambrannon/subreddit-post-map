@@ -23,6 +23,11 @@ const help = {
 		.then(function(post){
 			console.log(post);
 		})
+		.catch(function(err){
+			if(err.code !== 11000){
+				console.log(err);
+			}
+		})
 	}
 }
 
