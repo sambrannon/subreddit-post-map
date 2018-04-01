@@ -5,8 +5,7 @@ function initMap() {
     zoom: 3,
     center: {lat: 41.850033, lng: -87.6500523}
     });
-    var markers = [];
-    for (let post of posts){
+    var markers = posts.map(function(post){
       let content = `<h2>${post.title}</h2><br /><img src=${post.image.small.url} />`;
       let infowindow = new google.maps.InfoWindow({
           content: content
@@ -18,15 +17,8 @@ function initMap() {
       marker.addListener('click', function() {
           infowindow.open(map, marker);
         });
-      markers.push(marker);
-    }
-
-    // var markers = posts.map(function(post, i) {
-    //   return new google.maps.Marker({
-    //     position: {lat: Number(post.city.latitude), lng: Number(post.city.longitude)},
-    //     title: post.title
-    //   });
-    // });
+      return marker;
+    });
 
     // Add a marker clusterer to manage the markers.
     var markerCluster = new MarkerClusterer(map, markers,
