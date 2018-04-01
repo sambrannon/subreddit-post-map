@@ -8,5 +8,3 @@ const getAllPosts = function(){
 		return console.log(err);
 	})
 }
-
-
