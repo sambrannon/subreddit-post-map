@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.set('debug', true);
+mongoose.set('debug', false);
 mongoose.connect('mongodb://localhost/subreddit-post-map');
 
 mongoose.Promise = Promise;

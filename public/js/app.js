@@ -9,14 +9,4 @@ const getAllPosts = function(){
 	})
 }
 
-const getAllCoordinates = function(){
-	return getAllPosts()
-	.then(function(posts){
-		return posts.reduce(function(acc, next){
-			let latitude = Number(next.city.latitude);
-			let longitude = Number(next.city.longitude)
-			acc.push({lat: latitude, lng: longitude});
-			return acc;
-		}, []);
-	})
-}
+
